@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Paintball</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+    <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+
+    <script src="./shoot.js"></script>
+    <script src="./playerMovement.js"></script>
+    <script src="./enemy.js"></script>
+
+</head>
+
+<body>
+
+    <a-scene id="scene" inspector-plugin-recast>
+
+        <!--Assets-->
+        <a-assets>
+            <a-asset-item id="shooter" src="./models/soldier/scene.gltf"></a-asset-item>
+            <a-asset-item id="collider" src="./models/navmesh.gltf"></a-asset-item>
+            <a-asset-item id="orge" src="./models/soldier/scene.gltf"></a-asset-item>
+
+
+
+        </a-assets>
+
+        <!--A-Frame Environment-->
+        <a-entity id="environment" environment="preset:default; skyType:gradient; lighting:point">
+        </a-entity>
+
+        <!--Sounds-->
+
+
+        <!--Light-->
+        <a-entity light="type: ambient; color: white; intensity:0.5"></a-entity>
+        <a-entity light="type: directional; color: #EEE; intensity: 1" position="-1 1 0"></a-entity>
+
+        <!--Camera and Cursor-->
+        <a-entity id="camera-rig" movement-controls="speed: 0.2; constrainToNavMesh: true" position="0 0 5">
+            <a-entity id="camera" camera position="0 1.6 0" look-controls="pointerLockEnabled: false">
+                <a-entity id="weapon" gltf-model="#shooter" position="0.17 -2.76 -0.08" rotation="-20 -145 20" scale="0.05 0.05 0.05" static-body player-movement>
+                </a-entity>
+                <a-cursor></a-cursor>
+                <a-entity id="level1" position="-9 5.21669 -7.1" text="font: monoid; width:5; height: 5; value: Level 1">
+                </a-entity>
+
+                <a-entity id="targets" position="5 5 -7.1" text="font: monoid;width:10; height: 5; value: Shoot Opponent:">
+                    <a-entity id="countMonster" position="4 0 0" text="font: monoid; width:10; height: 5; value: 4"></a-entity>
+                </a-entity>
+
+                <a-entity id="playerLife" position="-5 5 -7.16344" text="font: monoid; width:10; height: 5;value: Player Life:">
+                    <a-entity id="countLife" position="3 0 0" text="font: monoid; width:10; height: 5; value: 10"></a-entity>
+                </a-entity>
+
+                <a-entity id="over" position="1 1 -3" text="font: monoid; width:5; height: 5; value: Better Luck Next Time :(" visible="false">
+                </a-entity>
+
+                <a-entity id="completed" position="1.5 1 -3" text="font: monoid; width:5; height: 5; value: Level Completed :)" visible="false">
+                </a-entity>
+            </a-entity>
+        </a-entity>
+
+
+        <!--Bullets-->
+        <a-entity bullets></a-entity>
+
+        <a-entity enemy-bullets></a-entity>
+
+        <!-- Navigation Mesh -->
+        <a-entity id="navigation-mesh" position="0 -1 0" gltf-model="#collider" visible="false" nav-mesh>
+        </a-entity>
+
+        <!--Ground-->
+        <a-plane id="ground" position="0 0 -15" rotation="-90 0 0" height="50" width="50" static-body visible="false">
+        </a-plane>
+
+        <a-entity id="enemy1" rotation="0 90 0" gltf-model="#orge" position="-10 0 -15" scale=".1 .1 .1" animation-mixer body="type: static; mass: 5; shape: none;" shape="shape: sphere; radius: 300; offset: 0 300 0;" animation="property: position; to: 10 0 -15; dur: 20000; easing: linear; loop: true; dir:alternate">
+
+    </a-scene>
+</body>
+
+</html>
